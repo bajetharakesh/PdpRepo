@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Suite" duration-ms="7271" started-at="2020-05-07T21:07:17Z" finished-at="2020-05-07T21:07:24Z">
+    <groups>
+    </groups>
+    <test name="Test" duration-ms="7271" started-at="2020-05-07T21:07:17Z" finished-at="2020-05-07T21:07:24Z">
+      <class name="test.Framework.TestLogin">
+        <test-method status="PASS" signature="beforeSuite()[pri:0, instance:test.Framework.TestLogin@1efef64]" name="beforeSuite" is-config="true" duration-ms="97" started-at="2020-05-08T02:37:17Z" finished-at="2020-05-08T02:37:17Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeSuite -->
+        <test-method status="PASS" signature="setup()[pri:0, instance:test.Framework.TestLogin@1efef64]" name="setup" is-config="true" duration-ms="3803" started-at="2020-05-08T02:37:17Z" finished-at="2020-05-08T02:37:21Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setup -->
+        <test-method status="PASS" signature="intiateTest()[pri:0, instance:test.Framework.TestLogin@1efef64]" name="intiateTest" is-config="true" duration-ms="3" started-at="2020-05-08T02:37:21Z" finished-at="2020-05-08T02:37:21Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- intiateTest -->
+        <test-method status="PASS" signature="LoginTest(java.lang.String, java.lang.String)[pri:0, instance:test.Framework.TestLogin@1efef64]" name="LoginTest" duration-ms="2807" started-at="2020-05-08T02:37:21Z" finished-at="2020-05-08T02:37:24Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[tester456@gmail.com]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[test@123]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- LoginTest -->
+        <test-method status="PASS" signature="getResult(org.testng.ITestResult)[pri:0, instance:test.Framework.TestLogin@1efef64]" name="getResult" is-config="true" duration-ms="2" started-at="2020-05-08T02:37:24Z" finished-at="2020-05-08T02:37:24Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=LoginTest status=SUCCESS method=TestLogin.LoginTest(java.lang.String, java.lang.String)[pri:0, instance:test.Framework.TestLogin@1efef64] output={null}]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- getResult -->
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:test.Framework.TestLogin@1efef64]" name="tearDown" is-config="true" duration-ms="646" started-at="2020-05-08T02:37:24Z" finished-at="2020-05-08T02:37:24Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+        <test-method status="PASS" signature="endReport()[pri:0, instance:test.Framework.TestLogin@1efef64]" name="endReport" is-config="true" duration-ms="164" started-at="2020-05-08T02:37:24Z" finished-at="2020-05-08T02:37:25Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- endReport -->
+      </class> <!-- test.Framework.TestLogin -->
+    </test> <!-- Test -->
+  </suite> <!-- Suite -->
+</testng-results>

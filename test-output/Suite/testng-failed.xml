@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [Suite]">
+  <test name="Test(failed)">
+    <parameter name="password" value="test@123"/>
+    <parameter name="emailId" value="tester456@gmail.com"/>
+    <parameter name="url" value="https://www.google.com"/>
+    <classes>
+      <class name="test.Framework.TestLogin">
+        <methods>
+          <include name="intiateTest"/>
+          <include name="getResult"/>
+          <include name="LoginTest2"/>
+          <include name="setup"/>
+          <include name="tearDown"/>
+          <include name="endReport"/>
+          <include name="beforeSuite"/>
+        </methods>
+      </class> <!-- test.Framework.TestLogin -->
+    </classes>
+  </test> <!-- Test(failed) -->
+</suite> <!-- Failed suite [Suite] -->

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [Command line suite]" verbose="0">
+  <test thread-count="5" name="Command line test(failed)" verbose="0">
+    <classes>
+      <class name="test.Framework.TestPowerade">
+        <methods>
+          <include name="getResult"/>
+          <include name="intiateTest"/>
+          <include name="LaunchSite"/>
+          <include name="setup"/>
+          <include name="tearDown"/>
+          <include name="endReport"/>
+          <include name="beforeSuite"/>
+        </methods>
+      </class> <!-- test.Framework.TestPowerade -->
+      <class name="test.Framework.TestPeaceTea">
+        <methods>
+          <include name="getResult"/>
+          <include name="intiateTest"/>
+          <include name="LaunchSite"/>
+          <include name="setup"/>
+          <include name="tearDown"/>
+          <include name="endReport"/>
+          <include name="beforeSuite"/>
+        </methods>
+      </class> <!-- test.Framework.TestPeaceTea -->
+      <class name="test.Framework.TestAha">
+        <methods>
+          <include name="intiateTest"/>
+          <include name="getResult"/>
+          <include name="LaunchSite"/>
+          <include name="setup"/>
+          <include name="tearDown"/>
+          <include name="endReport"/>
+          <include name="beforeSuite"/>
+        </methods>
+      </class> <!-- test.Framework.TestAha -->
+      <class name="test.Framework.TestLogin">
+        <methods>
+          <include name="intiateTest"/>
+          <include name="getResult"/>
+          <include name="setup"/>
+          <include name="tearDown"/>
+          <include name="LaunchSite"/>
+          <include name="endReport"/>
+          <include name="beforeSuite"/>
+        </methods>
+      </class> <!-- test.Framework.TestLogin -->
+      <class name="test.Framework.TestFresca">
+        <methods>
+          <include name="intiateTest"/>
+          <include name="getResult"/>
+          <include name="LaunchSite"/>
+          <include name="setup"/>
+          <include name="tearDown"/>
+          <include name="endReport"/>
+          <include name="beforeSuite"/>
+        </methods>
+      </class> <!-- test.Framework.TestFresca -->
+      <class name="test.Framework.TestCoke">
+        <methods>
+          <include name="LaunchSite"/>
+          <include name="intiateTest"/>
+          <include name="getResult"/>
+          <include name="setup"/>
+          <include name="tearDown"/>
+          <include name="endReport"/>
+          <include name="beforeSuite"/>
+        </methods>
+      </class> <!-- test.Framework.TestCoke -->
+    </classes>
+  </test> <!-- Command line test(failed) -->
+</suite> <!-- Failed suite [Command line suite] -->
