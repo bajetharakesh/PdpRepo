@@ -23,7 +23,7 @@ public class WebDriverHelp {
     private ExtentTest logger;
     private WebDriverWait wait;
     private ReadProperties prop;
-
+    private String dayStamp;
     private void LaunchDriver() {
         WebDriverManager.chromedriver().version("81.0.4044.138").setup();
         ChromeOptions options = new ChromeOptions();
@@ -34,7 +34,7 @@ public class WebDriverHelp {
         options.addArguments("--disable-browser-side-navigation");
         driver = new ChromeDriver(options);
         wait = new WebDriverWait(driver, 15);
-
+        dayStamp = new SimpleDateFormat("yyyy_MM_dd_kk_mm_ss").format(new Date());
     }
 
     public WebDriver getWebDriver() {
@@ -161,8 +161,8 @@ public class WebDriverHelp {
         try {
             TakesScreenshot ts = (TakesScreenshot) driver;
             File source = ts.getScreenshotAs(OutputType.FILE);
-            String timeStamp = new SimpleDateFormat("yyyy_MM_dd__kk_mm_ss").format(new Date());
-            String desc = System.getProperty("user.dir") + "//test-output//Screenshot//" + timeStamp + ".jpg";
+            String timeStamp = new SimpleDateFormat("yyyy_MM_dd_kk_mm_ss").format(new Date());
+            String desc = System.getProperty("user.dir") + "//test-output//Screenshot//" + dayStamp+"//"+timeStamp + ".jpg";
             File deFile = new File(desc);
             FileUtils.copyFile(source, deFile);
             System.out.println("Screenshot taken");
@@ -177,7 +177,8 @@ public class WebDriverHelp {
             if (responseCode / 400 != 1) {
                 log("pass", "image is displayed as expected");
             } else {
-                log("fail", "image is broken or not present");
+                String url = driver.getCurrentUrl();
+                log("fail", "image is broken or not present page URL is "+url);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -264,7 +265,7 @@ public class WebDriverHelp {
             con.setRequestMethod("GET");
             //con.setRequestProperty("User-Agent", USER_AGENT);
             responseCode = con.getResponseCode();
-            System.out.println("GET Response Code :: " + responseCode);
+            System.out.println("GET Response Code :: " + responseCode + "Image URL "+url);
             con.disconnect();
         } catch (Exception e) {
             e.printStackTrace();
