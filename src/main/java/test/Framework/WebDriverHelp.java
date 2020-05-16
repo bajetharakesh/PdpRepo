@@ -143,7 +143,7 @@ public class WebDriverHelp {
         }
     }
 
-    public void log(String status, String msg) {
+    private void log(String status, String msg) {
         if (status.equalsIgnoreCase("pass")) {
             logger.log(LogStatus.PASS, msg);
         } else if (status.equalsIgnoreCase("fail")) {
@@ -152,11 +152,11 @@ public class WebDriverHelp {
         }
     }
 
-    public void logTitle(String title) {
+    private void logTitle(String title) {
         logger.log(LogStatus.INFO, "HTML", title);
     }
 
-    public void captureScreenShot() {
+    private void captureScreenShot() {
         //TODO: get current step name to image and take full page screenshot
         try {
             TakesScreenshot ts = (TakesScreenshot) driver;
@@ -171,7 +171,7 @@ public class WebDriverHelp {
         }
     }
 
-    public void checkBrokenImage(String locator) {
+    private void checkBrokenImage(String locator) {
         try {
             int responseCode = getResponseCode(locator);
             if (responseCode / 400 != 1) {
@@ -186,18 +186,18 @@ public class WebDriverHelp {
         }
     }
 
-    public int getTabsCount() {
+    private int getTabsCount() {
         return driver.getWindowHandles().size();
     }
 
-    public void OpenInNewTab(WebElement locator) {
+    private void OpenInNewTab(WebElement locator) {
         String LinkOpeninNewTab = Keys.chord(Keys.CONTROL, Keys.RETURN);
         locator.sendKeys(LinkOpeninNewTab);
         switchToTab(getTabsCount() - 1);
         checkPageLoad();
     }
 
-    public boolean switchToTab(int iWindow) {
+    private boolean switchToTab(int iWindow) {
         boolean bFlag = false;
         int wait_timer = 3;
 
@@ -241,7 +241,7 @@ public class WebDriverHelp {
         }
     }
 
-    public void checkPreviewURL() {
+    private void checkPreviewURL() {
         try {
             checkPageLoad();
             if (driver.getCurrentUrl().contains("preview")) {
@@ -255,7 +255,7 @@ public class WebDriverHelp {
         }
     }
 
-    public int getResponseCode(String url) {
+    private int getResponseCode(String url) {
         int responseCode = 0;
         try {
             URL obj = null;
@@ -265,7 +265,7 @@ public class WebDriverHelp {
             con.setRequestMethod("GET");
             //con.setRequestProperty("User-Agent", USER_AGENT);
             responseCode = con.getResponseCode();
-            System.out.println("GET Response Code :: " + responseCode + "Image URL "+url);
+            System.out.println("GET Response Code :: " + responseCode + " Image URL "+url);
             con.disconnect();
         } catch (Exception e) {
             e.printStackTrace();
