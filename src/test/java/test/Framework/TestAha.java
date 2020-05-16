@@ -2,7 +2,6 @@ package test.Framework;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import java.util.LinkedHashMap;
@@ -11,12 +10,12 @@ import java.util.List;
 public class TestAha extends Common {
     public static LinkedHashMap<String, String> PDPlinks = new LinkedHashMap<String, String>();
 
-    @Parameters({"urlaha"})
-    @Test
+    @Test(dataProvider="urlList")
     public void LaunchSite(String urlaha) {
         help.launchUrl(urlaha);
         help.checkPageLoad();
-        List<WebElement> allProduct = driver.findElements(By.xpath(prop.getLocator("PLPContainerAha")));
+        List<WebElement> allProduct = driver.findElements(By.xpath(help.getLocator("PLPContainer")));
+        //List<WebElement> allProduct = driver.findElements(By.xpath(prop.getLocator("PLPContainerAha")));
         if (allProduct != null)
         {
             for (int eachProduct = 0; eachProduct < allProduct.size(); eachProduct++) {

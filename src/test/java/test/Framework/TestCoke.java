@@ -2,18 +2,18 @@ package test.Framework;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import java.util.List;
 
 public class TestCoke extends Common {
-    @Parameters({"urlcoke"})
-    @Test
+    //@Parameters({"urlcoke"})
+    @Test(dataProvider="urlList")
     public void LaunchSite(String urlcoke) {
         help.launchUrl(urlcoke);
         help.checkPageLoad();
-        List<WebElement> allProduct = driver.findElements(By.xpath(prop.getLocator("PLPContainer")));
+        List<WebElement> allProduct = driver.findElements(By.xpath(help.getLocator("PLPContainer")));
+//        List<WebElement> allProduct = driver.findElements(By.xpath(prop.getLocator("PLPContainer")));
         if (allProduct != null)
         {
             for (int eachProduct = 0; eachProduct < allProduct.size(); eachProduct++) {
@@ -54,5 +54,5 @@ public class TestCoke extends Common {
                 }
             }
         }
-    }
+   }
 }

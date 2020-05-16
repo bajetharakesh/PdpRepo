@@ -2,17 +2,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Suite">
 	<test name="Test">
-		<parameter name="emailId" value="tester456@gmail.com"/>
-		<parameter name="password" value="test@123"/>
-		<parameter name="url" value="https://www.google.com"/>
-		<parameter name="urlcoke" value="https://us.coca-cola.com/products/"/>
-		<parameter name="urlpowerade" value="https://www.powerade.com/products/"/>
-		<parameter name="urlfresca" value="https://www.fresca.com/products"/>
-		<parameter name="urlaha" value="https://www.drinkaha.com/products"/>
-		<parameter name="urlpeacetea" value="https://www.peacetea.com/products"/>
 		<classes>
 			<class name="test.Framework.TestCoke"/>
-
 			<!--  class name="test.Framework.ExtentsReportsClass"-->
 		</classes>
 	</test> 

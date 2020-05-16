@@ -23,7 +23,8 @@ public class WebDriverHelp {
     private ExtentTest logger;
     private WebDriverWait wait;
     private ReadProperties prop;
-
+    private String systemName;
+    private String daystamp;
     private void LaunchDriver() {
         WebDriverManager.chromedriver().version("81.0.4044.138").setup();
         ChromeOptions options = new ChromeOptions();
@@ -32,9 +33,11 @@ public class WebDriverHelp {
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-infobars");
         options.addArguments("--disable-browser-side-navigation");
+
+        //options.addArguments("--headless");
         driver = new ChromeDriver(options);
         wait = new WebDriverWait(driver, 15);
-
+        daystamp = new SimpleDateFormat("yyyy_MM_dd_kk_mm_ss").format(new Date());
     }
 
     public WebDriver getWebDriver() {
@@ -59,6 +62,8 @@ public class WebDriverHelp {
             driver.get(url);
             log("pass", url + " is successfully launched");
 
+            systemName = url.split("[.]")[1].replace("-","");
+
         } catch (Exception e) {
             e.printStackTrace();
             log("fail", e.getMessage());
@@ -67,8 +72,8 @@ public class WebDriverHelp {
 
     public void click(String element) {
         try {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(prop.getLocator(element))));
-            driver.findElement(By.xpath(prop.getLocator(element))).click();
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(getLocator(element))));
+            driver.findElement(By.xpath(getLocator(element))).click();
             //log("pass", "Clicked");
 
 
@@ -81,9 +86,9 @@ public class WebDriverHelp {
     public WebElement getEachElement(String element, int i) {
         //TODO: implement other methods of finding element
         try {
-            wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(prop.getLocator(element))));
+            wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(getLocator(element))));
             //log("pass", "Found Element");
-            return driver.findElements(By.xpath(prop.getLocator(element))).get(i);
+            return driver.findElements(By.xpath(getLocator(element))).get(i);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -104,6 +109,18 @@ public class WebDriverHelp {
         }
     }
 
+    public String getLocator(String locator) {
+        String actualLocator = "";
+
+        actualLocator = systemName + "." + locator;
+        if (prop.getLocator(actualLocator) != null) {
+            return prop.getLocator(actualLocator);
+        } else if (prop.getLocator(locator) != null) {
+            return prop.getLocator(locator);
+        } else {
+            return "locator not present in locator.properties";
+        }
+    }
     public void enterValue(String element, String value) {
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(element)));
@@ -143,7 +160,7 @@ public class WebDriverHelp {
         }
     }
 
-    public void log(String status, String msg) {
+    private void log(String status, String msg) {
         if (status.equalsIgnoreCase("pass")) {
             logger.log(LogStatus.PASS, msg);
         } else if (status.equalsIgnoreCase("fail")) {
@@ -152,17 +169,17 @@ public class WebDriverHelp {
         }
     }
 
-    public void logTitle(String title) {
+    private void logTitle(String title) {
         logger.log(LogStatus.INFO, "HTML", title);
     }
 
-    public void captureScreenShot() {
+    private void captureScreenShot() {
         //TODO: get current step name to image and take full page screenshot
         try {
             TakesScreenshot ts = (TakesScreenshot) driver;
             File source = ts.getScreenshotAs(OutputType.FILE);
-            String timeStamp = new SimpleDateFormat("yyyy_MM_dd__kk_mm_ss").format(new Date());
-            String desc = System.getProperty("user.dir") + "//test-output//Screenshot//" + timeStamp + ".jpg";
+            String timeStamp = new SimpleDateFormat("yyyy_MM_dd_kk_mm_ss").format(new Date());
+            String desc = System.getProperty("user.dir")+"//test-output//Screenshot//"+daystamp+"//"+timeStamp+".jpg";
             File deFile = new File(desc);
             FileUtils.copyFile(source, deFile);
             System.out.println("Screenshot taken");
@@ -171,7 +188,7 @@ public class WebDriverHelp {
         }
     }
 
-    public void checkBrokenImage(String locator) {
+    private void checkBrokenImage(String locator) {
         try {
             int responseCode = getResponseCode(locator);
             if (responseCode / 400 != 1) {
@@ -185,18 +202,18 @@ public class WebDriverHelp {
         }
     }
 
-    public int getTabsCount() {
+    private int getTabsCount() {
         return driver.getWindowHandles().size();
     }
 
-    public void OpenInNewTab(WebElement locator) {
+    private void OpenInNewTab(WebElement locator) {
         String LinkOpeninNewTab = Keys.chord(Keys.CONTROL, Keys.RETURN);
         locator.sendKeys(LinkOpeninNewTab);
         switchToTab(getTabsCount() - 1);
         checkPageLoad();
     }
 
-    public boolean switchToTab(int iWindow) {
+    private boolean switchToTab(int iWindow) {
         boolean bFlag = false;
         int wait_timer = 3;
 
@@ -240,7 +257,7 @@ public class WebDriverHelp {
         }
     }
 
-    public void checkPreviewURL() {
+    private void checkPreviewURL() {
         try {
             checkPageLoad();
             if (driver.getCurrentUrl().contains("preview")) {
@@ -254,7 +271,7 @@ public class WebDriverHelp {
         }
     }
 
-    public int getResponseCode(String url) {
+    private int getResponseCode(String url) {
         int responseCode = 0;
         try {
             URL obj = null;
@@ -296,7 +313,7 @@ public class WebDriverHelp {
             sizeValue = getEachElement("sizesAvailable", k).getAttribute("innerText");
             getEachElement("sizesAvailable", k).click();
             checkPageLoad();
-            checkBrokenImage(driver.findElement(By.xpath(prop.getLocator("ImagePDP"))).getAttribute("src"));
+            checkBrokenImage(driver.findElement(By.xpath(getLocator("ImagePDP"))).getAttribute("src"));
             checkPreviewURL();
             log("pass", "Verified Sizes, Images, Preview URL for Size " + sizeValue);
         } catch (Exception e) {
@@ -314,9 +331,9 @@ public class WebDriverHelp {
             //((JavascriptExecutor)driver).executeScript("window.scrollBy(200,300");
             getEachElement("flavorsAvailable", flavor).click();
             checkPageLoad();
-            checkBrokenImage(driver.findElement(By.xpath(prop.getLocator("ImagePDP"))).getAttribute("src"));
+            checkBrokenImage(driver.findElement(By.xpath(getLocator("ImagePDP"))).getAttribute("src"));
             checkPreviewURL();
-            sizesForEachFlavor = driver.findElements(By.xpath(prop.getLocator("sizesAvailable")));
+            sizesForEachFlavor = driver.findElements(By.xpath(getLocator("sizesAvailable")));
             log("pass", "Verified Sizes, Images, Preview URL for Size " + flavorName);
 
         } catch (Exception e) {
@@ -335,9 +352,9 @@ public class WebDriverHelp {
             ((JavascriptExecutor)driver).executeScript("window.scrollBy(200,300)");
             getEachElement("flavorsAvailable", flavor).click();
             checkPageLoad();
-            checkBrokenImage(driver.findElement(By.xpath(prop.getLocator("ImagePDP"))).getAttribute("src"));
+            checkBrokenImage(driver.findElement(By.xpath(getLocator("ImagePDP"))).getAttribute("src"));
             checkPreviewURL();
-            sizesForEachFlavor = driver.findElements(By.xpath(prop.getLocator("sizesAvailable")));
+            sizesForEachFlavor = driver.findElements(By.xpath(getLocator("sizesAvailable")));
             log("pass", "Verified Sizes, Images, Preview URL for Size " + flavorName);
 
         } catch (Exception e) {
@@ -357,7 +374,7 @@ public class WebDriverHelp {
             }
             checkPreviewURL();
             click("flavorsDropdown");
-            flavorForEachCategory = driver.findElements(By.xpath(prop.getLocator("flavorsAvailable")));
+            flavorForEachCategory = driver.findElements(By.xpath(getLocator("flavorsAvailable")));
             click("flavorsDropdown");
             logTitle(categoryName);
             log("pass", "Verified Image, Preview URL for Category ");
@@ -406,13 +423,13 @@ public class WebDriverHelp {
             OpenInNewTab(getEachElement("cokeExplore_Learn", product));
             productName = retriveName(productName);
             if(productName.contains("Coca-Cola Life")){
-             categoryForEachProduct = driver.findElements(By.xpath(prop.getLocator("apple")));
+             categoryForEachProduct = driver.findElements(By.xpath(getLocator("apple")));
             }
             else {
-                categoryForEachProduct = driver.findElements(By.xpath(prop.getLocator("cokeExplore_Learn")));
+                categoryForEachProduct = driver.findElements(By.xpath(getLocator("cokeExplore_Learn")));
             }
             logTitle(productName);
-            log("pass", "Verified Image, Preview URL on product ");
+            log("pass", "Verified Image, No Preview URL redirection on product ");
 
         } catch (Exception e) {
             e.printStackTrace();
