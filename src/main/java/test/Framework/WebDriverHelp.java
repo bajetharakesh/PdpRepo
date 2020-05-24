@@ -5,8 +5,8 @@ import com.relevantcodes.extentreports.LogStatus;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -19,12 +19,13 @@ import java.util.Date;
 import java.util.List;
 
 public class WebDriverHelp {
-    private WebDriver driver;
+    private RemoteWebDriver driver;
     private ExtentTest logger;
     private WebDriverWait wait;
     private ReadProperties prop;
     private String dayStamp;
     private void LaunchDriver() {
+        try{
         WebDriverManager.chromedriver().version("81.0.4044.138").setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("start-maximized");
@@ -32,12 +33,16 @@ public class WebDriverHelp {
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-infobars");
         options.addArguments("--disable-browser-side-navigation");
-        driver = new ChromeDriver(options);
+        URL url =  new URL("http://localhost:4444/wd/hub");
+        driver = new RemoteWebDriver(url,options);
+        //driver = new ChromeDriver(options);
         wait = new WebDriverWait(driver, 15);
         dayStamp = new SimpleDateFormat("yyyy_MM_dd_kk_mm_ss").format(new Date());
     }
-
-    public WebDriver getWebDriver() {
+catch(Exception e){
+        System.out.println(e.getMessage());}
+    }
+    public RemoteWebDriver getWebDriver() {
         //TODO: use enum to optimize code
         if (driver == null) {
             LaunchDriver();
