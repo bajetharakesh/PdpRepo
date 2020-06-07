@@ -3,3 +3,4 @@
 [0510/220658.908:ERROR:file_io_win.cc(161)] CreateFile C:\Users\rbajetha\AppData\Local\Temp\scoped_dir134872_536819902\Crashpad\settings.dat: The system cannot find the path specified. (0x3)
 [0510/220658.913:ERROR:file_io_win.cc(170)] CreateFile C:\Users\rbajetha\AppData\Local\Temp\scoped_dir134872_536819902\Crashpad\reports\ec9b0612-d92c-4d49-a07d-975cae744bae.dmp: The system cannot find the path specified. (0x3)
 [0510/220658.913:ERROR:crash_report_exception_handler.cc(97)] PrepareNewCrashReport failed
+[0606/154058.812:ERROR:prune_crash_reports.cc(35)] PruneCrashReportDatabase: Failed to get pending reports
