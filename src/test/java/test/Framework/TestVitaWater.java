@@ -7,11 +7,11 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
-public class TestPowerade extends Common {
-    @Parameters({"urlpowerade"})
+public class TestVitaWater extends Common {
+    @Parameters({"urlvitaminwater"})
     @Test
-    public void LaunchSite(String urlpowerade) {
-        help.launchUrl(urlpowerade);
+    public void LaunchSite(String urlvitaminwater) {
+        help.launchUrl(urlvitaminwater);
         help.checkPageLoad();
         List<WebElement> allProduct = driver.findElements(By.xpath(prop.getLocator("PLPContainer")));
         if (allProduct != null)

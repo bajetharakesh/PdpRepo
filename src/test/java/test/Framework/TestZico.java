@@ -7,18 +7,18 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
-public class TestPowerade extends Common {
-    @Parameters({"urlpowerade"})
+public class TestZico extends Common {
+    @Parameters({"urlzico"})
     @Test
-    public void LaunchSite(String urlpowerade) {
-        help.launchUrl(urlpowerade);
+    public void LaunchSite(String urlzico) {
+        help.launchUrl(urlzico);
         help.checkPageLoad();
-        List<WebElement> allProduct = driver.findElements(By.xpath(prop.getLocator("PLPContainer")));
+        List<WebElement> allProduct = driver.findElements(By.xpath(prop.getLocator("PLPContainerZico")));
         if (allProduct != null)
         {
             for (int eachProduct = 0; eachProduct < allProduct.size(); eachProduct++) {
 
-                List<WebElement> categoryForEachProduct = help.verifyProduct(eachProduct);
+                List<WebElement> categoryForEachProduct = help.verifyProduct2(eachProduct);
                 int updatedCategorySize = 0;
                 boolean isCategoryPresent = true;
                 if (categoryForEachProduct.size() == 0) {

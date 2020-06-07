@@ -10,8 +10,13 @@
 		<parameter name="urlfresca" value="https://www.fresca.com/products"/>
 		<parameter name="urlaha" value="https://www.drinkaha.com/products"/>
 		<parameter name="urlpeacetea" value="https://www.peacetea.com/products"/>
+		<parameter name="urlzico" value="https://www.zico.com/products/"/>
+		<parameter name="urldunkin" value="https://dunkinanytime.coca-cola.com/products"/>
+		<parameter name="urlbarqs" value="https://www.barqs.com/products/"/>
+		<parameter name="urlvitaminwater" value="https://www.vitaminwater.com/"/>
+		<parameter name="urlmelloyello" value="https://www.melloyello.com/products"/>
 		<classes>
-			<class name="test.Framework.TestCoke"/>
+			<class name="test.Framework.TestPoweradePOC"/>
 
 			<!--  class name="test.Framework.ExtentsReportsClass"-->
 		</classes>

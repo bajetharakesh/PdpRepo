@@ -5,9 +5,10 @@ import org.openqa.selenium.WebElement;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
-public class TestPowerade extends Common {
+public class TestPoweradePOC extends Common {
     @Parameters({"urlpowerade"})
     @Test
     public void LaunchSite(String urlpowerade) {
@@ -28,13 +29,13 @@ public class TestPowerade extends Common {
                     updatedCategorySize = categoryForEachProduct.size();
                 }
                 for (int eachCategory = 0; eachCategory < updatedCategorySize; eachCategory++) {
-                    List<WebElement> flavorForEachCategory = help.verifyCategoryForEachProduct(eachCategory, isCategoryPresent);
+                    LinkedHashMap<Integer,String> flavorForEachCategory = help.verifyCategoryForEachProduct2(eachCategory, isCategoryPresent);
                     String flavorName = "";
                     for (int eachFlavor = 0; eachFlavor < flavorForEachCategory.size(); eachFlavor++) {
                         try {
-                            List<WebElement> sizesForEachFlavor = help.verifyFlavorForEachProductCategory(eachFlavor, flavorName);
+                            LinkedHashMap<Integer, String> sizesForEachFlavor = help.verifyFlavorForEachProductCategory2(eachFlavor, flavorName, flavorForEachCategory.get(eachFlavor));
                             for (int eachSize = 0; eachSize < sizesForEachFlavor.size(); eachSize++) {
-                                help.verifySizesForEachFlavor(eachSize);
+                                help.verifySizesForEachFlavor2(eachSize,sizesForEachFlavor.get(eachSize));
                             }
                         } catch (Exception e) {
                             /**
