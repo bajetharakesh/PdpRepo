@@ -298,14 +298,21 @@ public class WebDriverHelp {
         //actions.perform();
     }
 
-    public void verifySizesForEachFlavor(int k) {
+    public void verifySizesForEachFlavorGrp2(int k) {
         String sizeValue = "";
         try {
             click("sizesDropdown");
             sizeValue = getEachElement("sizesAvailable", k).getAttribute("innerText");
             getEachElement("sizesAvailable", k).click();
             checkPageLoad();
-            checkBrokenImage(driver.findElement(By.xpath(prop.getLocator("ImagePDP"))).getAttribute("src"));
+            //checkBrokenImage(driver.findElement(By.xpath(prop.getLocator("ImagePDP"))).getAttribute("src"));
+            try {
+                checkBrokenImage(driver.findElement(By.xpath(prop.getLocator("ImagePDP"))).getAttribute("src"));
+            } catch (Exception e) {
+                String url = driver.getCurrentUrl();
+                log("fail", "Image is not displayed for " + sizeValue+" URL is "+url);
+                captureScreenShot();
+            }
             checkPreviewURL();
             log("pass", "Verified Sizes, Images, Preview URL for Size " + sizeValue);
         } catch (Exception e) {
@@ -314,7 +321,7 @@ public class WebDriverHelp {
         }
     }
 
-    public void verifySizesForEachFlavor2(int k, String sizeName) {
+    public void verifySizesForEachFlavor(int k, String sizeName) {
         String sizeValue = "";
         try {
             driver.navigate().refresh();
@@ -322,13 +329,23 @@ public class WebDriverHelp {
             click("sizesDropdown");
             //sizeValue = getEachElement("sizesAvailable", k).getAttribute("innerText");
             //getEachElement("sizesAvailable", k).click();
-
-            driver.findElement(By.xpath(prop.getLocator("sizesAvailable") + "[contains(.,'" + sizeName + "')]")).click();
+            //driver.findElement(By.xpath(prop.getLocator("sizesAvailable") + "[contains(.,'" + sizeName + "')]")).click();
+            if(sizeName.contains("PACK")){
+                sizeName = sizeName.replace("ACK","ack");
+                sizeName = sizeName.replace("FL OZ", "fl oz");
+            }else if(sizeName.contains("FL OZ")){
+                sizeName = sizeName.replace("FL OZ", "fl oz");
+            }
+            else if(sizeName.contains("bottle")){
+                sizeName = sizeName.replace("bottle", "Bottle");
+            }
+            driver.findElement(By.xpath("//ul/li[contains(.,'" + sizeName + "')]")).click();
             checkPageLoad();
             try {
                 checkBrokenImage(driver.findElement(By.xpath(prop.getLocator("ImagePDP"))).getAttribute("src"));
             } catch (Exception e) {
-                log("fail", "Image is not displayed for " + sizeName);
+                String url = driver.getCurrentUrl();
+                log("fail", "Image is not displayed for " + sizeName+" URL is "+url);
                 captureScreenShot();
             }
             checkPreviewURL();
@@ -339,7 +356,7 @@ public class WebDriverHelp {
         }
     }
 
-    public List<WebElement> verifyFlavorForEachProductCategory(int flavor, String flavorName) {
+    public List<WebElement> verifyFlavorForEachProductCategoryGrp2(int flavor, String flavorName) {
         List<WebElement> sizesForEachFlavor = null;
         String LatestFlavorName = "";
         try {
@@ -349,7 +366,14 @@ public class WebDriverHelp {
             //((JavascriptExecutor)driver).executeScript("window.scrollBy(200,300");
             getEachElement("flavorsAvailable", flavor).click();
             checkPageLoad();
-            checkBrokenImage(driver.findElement(By.xpath(prop.getLocator("ImagePDP"))).getAttribute("src"));
+            //checkBrokenImage(driver.findElement(By.xpath(prop.getLocator("ImagePDP"))).getAttribute("src"));
+            try {
+                checkBrokenImage(driver.findElement(By.xpath(prop.getLocator("ImagePDP"))).getAttribute("src"));
+            } catch (Exception e) {
+                String url = driver.getCurrentUrl();
+                log("fail", "Image is not displayed for " + flavorName+" URL is "+url);
+                captureScreenShot();
+            }
             checkPreviewURL();
             sizesForEachFlavor = driver.findElements(By.xpath(prop.getLocator("sizesAvailable")));
             log("pass", "Verified Sizes, Images, Preview URL for Flavor " + flavorName);
@@ -362,7 +386,7 @@ public class WebDriverHelp {
         return sizesForEachFlavor;
     }
 
-    public LinkedHashMap<Integer, String> verifyFlavorForEachProductCategory2(int flavor, String flavorName, String FlavorName) {
+    public LinkedHashMap<Integer, String> verifyFlavorForEachProductCategory(int flavor, String flavorName, String FlavorName) {
         List<WebElement> sizesForEachFlavor = null;
         LinkedHashMap<Integer, String> sizesForEachFlavor2 = new LinkedHashMap<Integer, String>();
         sizesForEachFlavor2.clear();
@@ -381,7 +405,8 @@ public class WebDriverHelp {
             try {
                 checkBrokenImage(driver.findElement(By.xpath(prop.getLocator("ImagePDP"))).getAttribute("src"));
             } catch (Exception e) {
-                log("fail", "Image is not displayed for " + FlavorName);
+                String url=driver.getCurrentUrl();
+                log("fail", "Image is not displayed for " + FlavorName+ " URL is "+url);
                 captureScreenShot();
             }
             checkPreviewURL();
@@ -405,15 +430,26 @@ public class WebDriverHelp {
 
     public List<WebElement> verifyFlavorForEachProductCategoryPeacetea(int flavor, String flavorName) {
         List<WebElement> sizesForEachFlavor = null;
+        //LinkedHashMap<Integer, String> sizesForEachFlavor2 = new LinkedHashMap<Integer, String>();
+        //sizesForEachFlavor2.clear();
         String LatestFlavorName = "";
         try {
             click("flavorsDropdown");
             flavorName = getEachElement("flavorsAvailable", flavor).getAttribute("innerText");
             //ScrollTillElement(driver.findElements(By.xpath(prop.getLocator("flavorsAvailable"))), flavor);
             ((JavascriptExecutor) driver).executeScript("window.scrollBy(200,300)");
+
             getEachElement("flavorsAvailable", flavor).click();
             checkPageLoad();
-            checkBrokenImage(driver.findElement(By.xpath(prop.getLocator("ImagePDP"))).getAttribute("src"));
+           // ((JavascriptExecutor) driver).executeScript("window.scrollBy(100,200)");
+            //checkBrokenImage(driver.findElement(By.xpath(prop.getLocator("ImagePDP"))).getAttribute("src"));
+            try {
+                checkBrokenImage(driver.findElement(By.xpath(prop.getLocator("ImagePDP"))).getAttribute("src"));
+            } catch (Exception e) {
+                String url = driver.getCurrentUrl();
+                log("fail", "Image is not displayed for " + flavorName+" URL is "+url);
+                captureScreenShot();
+            }
             checkPreviewURL();
             sizesForEachFlavor = driver.findElements(By.xpath(prop.getLocator("sizesAvailable")));
             log("pass", "Verified Sizes, Images, Preview URL for Flavor " + flavorName);
@@ -427,9 +463,10 @@ public class WebDriverHelp {
         return sizesForEachFlavor;
     }
 
-    public List<WebElement> verifyCategoryForEachProduct(int category, boolean categoryPresent) {
+    public List<WebElement> verifyCategoryForEachProductGrp2(int category, boolean categoryPresent) {
         List<WebElement> flavorForEachCategory = null;
         String categoryName = "";
+        //((JavascriptExecutor) driver).executeScript("window.scrollBy(600,900)");
         try {
             if (categoryPresent) { //TODO: Category name locator need to be updated for Coke energy
                 //categoryName = getEachElement("cokeExplore_Learn", category).getAttribute("innerText");
@@ -441,9 +478,8 @@ public class WebDriverHelp {
             click("flavorsDropdown");
             if (!categoryName.equals("")) {
                 logTitle(categoryName);
+                log("pass", "Verified Image, Preview URL for Category ");
             }
-            log("pass", "Verified Image, Preview URL for Category ");
-
         } catch (Exception e) {
             e.printStackTrace();
             log("fail", "Error in category Page " + categoryName);
@@ -451,7 +487,7 @@ public class WebDriverHelp {
         return flavorForEachCategory;
     }
 
-    public LinkedHashMap<Integer, String> verifyCategoryForEachProduct2(int category, boolean categoryPresent) {
+    public LinkedHashMap<Integer, String> verifyCategoryForEachProduct(int category, boolean categoryPresent) {
         List<WebElement> temp = null;
         LinkedHashMap<Integer, String> flavorForEachCategory = new LinkedHashMap<Integer, String>();
         flavorForEachCategory.clear();
@@ -472,9 +508,8 @@ public class WebDriverHelp {
             click("flavorsDropdown");
             if (!categoryName.equals("")) {
                 logTitle(categoryName);
+                log("pass", "Verified Image, Preview URL for Category ");
             }
-            log("pass", "Verified Image, Preview URL for Category ");
-
         } catch (Exception e) {
             e.printStackTrace();
             log("fail", "Error in category Page " + categoryName);
@@ -543,7 +578,7 @@ public class WebDriverHelp {
                 categoryForEachProduct = driver.findElements(By.xpath(prop.getLocator("cokeExplore_Learn")));
             }
             logTitle(productName);
-            log("pass", "Verified Image, Preview URL on product ");
+            log("pass", "Verified Image, Preview URL on product "+productName);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -589,7 +624,7 @@ public class WebDriverHelp {
                 logTitle(productName);
                 categoryForEachProduct = driver.findElements(By.xpath(prop.getLocator("Zico.PLPProductName")));
             }
-            log("pass", "Verified Image, Preview URL on product ");
+            log("pass", "Verified Image, Preview URL on product "+ productName);
 
         } catch (Exception e) {
             e.printStackTrace();

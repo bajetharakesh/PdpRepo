@@ -17,27 +17,26 @@ public class TestAha extends Common {
         help.launchUrl(urlaha);
         help.checkPageLoad();
         List<WebElement> allProduct = driver.findElements(By.xpath(prop.getLocator("PLPContainerAha")));
-        if (allProduct != null)
-        {
+        if (allProduct != null) {
             for (int eachProduct = 0; eachProduct < allProduct.size(); eachProduct++) {
 
                 List<WebElement> categoryForEachProduct = help.verifyProduct(eachProduct);
                 int updatedCategorySize = 0;
                 boolean isCategoryPresent = true;
-                if (((categoryForEachProduct.size() == 0))||(driver.getCurrentUrl().contains("aha"))) {
+                if (((categoryForEachProduct.size() == 0)) || (driver.getCurrentUrl().contains("aha"))) {
                     isCategoryPresent = false;
                     updatedCategorySize = updatedCategorySize + 1;
                 } else {
                     updatedCategorySize = categoryForEachProduct.size();
                 }
                 for (int eachCategory = 0; eachCategory < updatedCategorySize; eachCategory++) {
-                    List<WebElement> flavorForEachCategory = help.verifyCategoryForEachProduct(eachCategory, isCategoryPresent);
+                    List<WebElement> flavorForEachCategory = help.verifyCategoryForEachProductGrp2(eachCategory, isCategoryPresent);
                     String flavorName = "";
                     for (int eachFlavor = 0; eachFlavor < flavorForEachCategory.size(); eachFlavor++) {
                         try {
-                            List<WebElement> sizesForEachFlavor = help.verifyFlavorForEachProductCategory(eachFlavor, flavorName);
+                            List<WebElement> sizesForEachFlavor = help.verifyFlavorForEachProductCategoryGrp2(eachFlavor, flavorName);
                             for (int eachSize = 0; eachSize < sizesForEachFlavor.size(); eachSize++) {
-                                help.verifySizesForEachFlavor(eachSize);
+                                help.verifySizesForEachFlavorGrp2(eachSize);
                             }
                         } catch (Exception e) {
                             /**

@@ -31,13 +31,13 @@ public class TestPeaceTea extends Common {
                     updatedCategorySize = categoryForEachProduct.size();
                 }
                 for (int eachCategory = 0; eachCategory < updatedCategorySize; eachCategory++) {
-                    List<WebElement> flavorForEachCategory = help.verifyCategoryForEachProduct(eachCategory, isCategoryPresent);
+                    List<WebElement> flavorForEachCategory = help.verifyCategoryForEachProductGrp2(eachCategory, isCategoryPresent);
                     String flavorName = "";
                     for (int eachFlavor = 0; eachFlavor < flavorForEachCategory.size(); eachFlavor++) {
                         try {
                             List<WebElement> sizesForEachFlavor = help.verifyFlavorForEachProductCategoryPeacetea(eachFlavor, flavorName);
                             for (int eachSize = 0; eachSize < sizesForEachFlavor.size(); eachSize++) {
-                                help.verifySizesForEachFlavor(eachSize);
+                                help.verifySizesForEachFlavorGrp2(eachSize);
                             }
                         } catch (Exception e) {
                             /**

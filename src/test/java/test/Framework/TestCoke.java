@@ -1,10 +1,9 @@
 package test.Framework;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class TestCoke extends Common {
@@ -14,8 +13,7 @@ public class TestCoke extends Common {
         help.launchUrl(urlcoke);
         help.checkPageLoad();
         List<WebElement> allProduct = driver.findElements(By.xpath(prop.getLocator("PLPContainer")));
-        if (allProduct != null)
-        {
+        if (allProduct != null) {
             for (int eachProduct = 0; eachProduct < allProduct.size(); eachProduct++) {
 
                 List<WebElement> categoryForEachProduct = help.verifyProduct(eachProduct);
@@ -28,13 +26,13 @@ public class TestCoke extends Common {
                     updatedCategorySize = categoryForEachProduct.size();
                 }
                 for (int eachCategory = 0; eachCategory < updatedCategorySize; eachCategory++) {
-                    List<WebElement> flavorForEachCategory = help.verifyCategoryForEachProduct(eachCategory, isCategoryPresent);
+                    LinkedHashMap<Integer, String> flavorForEachCategory = help.verifyCategoryForEachProduct(eachCategory, isCategoryPresent);
                     String flavorName = "";
                     for (int eachFlavor = 0; eachFlavor < flavorForEachCategory.size(); eachFlavor++) {
                         try {
-                            List<WebElement> sizesForEachFlavor = help.verifyFlavorForEachProductCategory(eachFlavor, flavorName);
+                            LinkedHashMap<Integer, String> sizesForEachFlavor = help.verifyFlavorForEachProductCategory(eachFlavor, flavorName, flavorForEachCategory.get(eachFlavor));
                             for (int eachSize = 0; eachSize < sizesForEachFlavor.size(); eachSize++) {
-                                help.verifySizesForEachFlavor(eachSize);
+                                help.verifySizesForEachFlavor(eachSize, sizesForEachFlavor.get(eachSize));
                             }
                         } catch (Exception e) {
                             /**

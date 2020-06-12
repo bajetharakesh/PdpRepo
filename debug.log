@@ -4,3 +4,7 @@
 [0510/220658.913:ERROR:file_io_win.cc(170)] CreateFile C:\Users\rbajetha\AppData\Local\Temp\scoped_dir134872_536819902\Crashpad\reports\ec9b0612-d92c-4d49-a07d-975cae744bae.dmp: The system cannot find the path specified. (0x3)
 [0510/220658.913:ERROR:crash_report_exception_handler.cc(97)] PrepareNewCrashReport failed
 [0606/154058.812:ERROR:prune_crash_reports.cc(35)] PruneCrashReportDatabase: Failed to get pending reports
+[0606/225714.328:ERROR:scoped_process_suspend.cc(31)] NtSuspendProcess: An attempt was made to access an exiting process. (0xc000010a)
+[0606/225714.349:ERROR:process_info.cc(329)] VirtualQueryEx: Access is denied. (0x5)
+[0606/225714.352:ERROR:process_info.cc(556)] ReadMemoryInfo failed
+[0608/010842.217:ERROR:prune_crash_reports.cc(35)] PruneCrashReportDatabase: Failed to get pending reports
