@@ -18,15 +18,15 @@
 		<classes>
 <!--						<class name="test.Framework.TestAha2"/>-->
 <!--			<class name="test.Framework.TestCoke"/>-->
-<!--			<class name="test.Framework.TestAha"/>-->
-<!--			<class name="test.Framework.TestBarqs"/>-->
+			<class name="test.Framework.TestAha"/>
+			<class name="test.Framework.TestBarqs"/>
 <!--			<class name="test.Framework.TestDunkin"/>-->
 <!--			<class name="test.Framework.TestFresca"/>-->
 <!--			<class name="test.Framework.TestFresca2"/>-->
 <!--			<class name="test.Framework.TestMelloYello"/>-->
 <!--			<class name="test.Framework.TestPeaceTea"/>-->
 <!--			<class name="test.Framework.TestPowerade"/>-->
-			<class name="test.Framework.TestVitaWater"/>
+<!--			<class name="test.Framework.TestVitaWater"/>-->
 <!--			<class name="test.Framework.TestVitaWater2"/>-->
 <!--			<class name="test.Framework.TestZico"/>-->
 

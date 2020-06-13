@@ -7,8 +7,6 @@ import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 
-import java.io.File;
-
 public class Common {
 	
 	ExtentReports extent;
@@ -16,20 +14,23 @@ public class Common {
 	WebDriver driver;
 	WebDriverHelp help;
 	ReadProperties prop;
-	
+	private static final String reportPath = "/test-output/Report.html";
+	private static final String configPath = "\\extent-config.xml";
 
 	@BeforeSuite
 	public void beforeSuite() {
-		
-		extent = new ExtentReports (System.getProperty("user.dir") +"/test-output/Report.html", true);
-        extent.loadConfig(new File(System.getProperty("user.dir")+"\\extent-config.xml"));
+		System.out.println("Suite initiated");
+//		extent = new ExtentReports (System.getProperty("user.dir") +"/test-output/Report.html", true);
+//      extent.loadConfig(new File(System.getProperty("user.dir")+"\\extent-config.xml"));
 	}
 	@BeforeClass
 	public void setup(){
-		help = new WebDriverHelp(); 
+		help = new WebDriverHelp();
 		driver = help.getWebDriver();
 		prop =  new ReadProperties();
 		help.setProperties(prop);
+		extent = help.initiateExtentReport(reportPath,configPath);
+
 	}
 	
 	@BeforeMethod
@@ -53,13 +54,13 @@ public class Common {
 	@AfterClass
 	public void tearDown() {
 		driver.quit();
+		help.terminateExtentReport(extent);
 		System.out.println("tear down");
 	}
 	
 	@AfterSuite
 	public void endReport(){
-		extent.flush();
-        extent.close();
+	System.out.println("Suite ended");
     }
 
 //TODO: implement tags for test scripts

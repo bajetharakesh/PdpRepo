@@ -1,5 +1,6 @@
 package test.Framework;
 
+import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -21,10 +22,10 @@ import java.util.List;
 
 public class WebDriverHelp {
     private WebDriver driver;
-    private ExtentTest logger;
     private WebDriverWait wait;
     private ReadProperties prop;
-    private String dayStamp;
+    private  String dayStamp;
+    private  ExtentTest logger;
 
     private void LaunchDriver() {
         try {
@@ -39,7 +40,6 @@ public class WebDriverHelp {
             //driver = new RemoteWebDriver(url,options);
             driver = new ChromeDriver(options);
             wait = new WebDriverWait(driver, 15);
-            dayStamp = new SimpleDateFormat("yyyy_MM_dd_kk_mm_ss").format(new Date());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -53,9 +53,6 @@ public class WebDriverHelp {
         return driver;
     }
 
-    public void setLogger(ExtentTest logg) {
-        logger = logg;
-    }
 
     public void setProperties(ReadProperties properties) {
         prop = properties;
@@ -124,14 +121,6 @@ public class WebDriverHelp {
         }
     }
 
-    public void endTestCase(String result) {
-        if (result.equalsIgnoreCase("pass")) {
-            log("pass", "The Test Case is successfully passed");
-        } else if (result.equalsIgnoreCase("fail")) {
-            log("fail", "The Test Case is failed");
-        }
-    }
-
     public void checkPageLoad() {
         try {
             String pageLoadStatus = null;
@@ -144,49 +133,6 @@ public class WebDriverHelp {
                 //log("pass","Page loaded successfully");
             } else {
                 log("fail", "Issue in page loading" + driver.getCurrentUrl());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            log("fail", e.getMessage());
-        }
-    }
-
-    private void log(String status, String msg) {
-        if (status.equalsIgnoreCase("pass")) {
-            logger.log(LogStatus.PASS, msg);
-        } else if (status.equalsIgnoreCase("fail")) {
-            logger.log(LogStatus.FAIL, msg);
-            captureScreenShot();
-        }
-    }
-
-    private void logTitle(String title) {
-        logger.log(LogStatus.INFO, "HTML", title);
-    }
-
-    private void captureScreenShot() {
-        //TODO: get current step name to image and take full page screenshot
-        try {
-            TakesScreenshot ts = (TakesScreenshot) driver;
-            File source = ts.getScreenshotAs(OutputType.FILE);
-            String timeStamp = new SimpleDateFormat("yyyy_MM_dd_kk_mm_ss").format(new Date());
-            String desc = System.getProperty("user.dir") + "//test-output//Screenshot//" + dayStamp + "//" + timeStamp + ".jpg";
-            File deFile = new File(desc);
-            FileUtils.copyFile(source, deFile);
-            System.out.println("Screenshot taken");
-        } catch (Exception e) {
-            System.out.println("Exception: " + e.getMessage());
-        }
-    }
-
-    private void checkBrokenImage(String locator) {
-        try {
-            int responseCode = getResponseCode(locator);
-            if (responseCode / 400 != 1) {
-                log("pass", "image is displayed as expected");
-            } else {
-                String url = driver.getCurrentUrl();
-                log("fail", "image is broken or not present page URL is " + url);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -249,39 +195,6 @@ public class WebDriverHelp {
         }
     }
 
-    private void checkPreviewURL() {
-        try {
-            checkPageLoad();
-            if (driver.getCurrentUrl().contains("preview")) {
-                log("fail", "redirected to preview url");
-            } else {
-                //log("pass", "redirected to prod url only");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            log("fail", e.getMessage());
-        }
-    }
-
-    private int getResponseCode(String url) {
-        int responseCode = 0;
-        try {
-            URL obj = null;
-            obj = new URL(url);
-            HttpURLConnection con = null;
-            con = (HttpURLConnection) obj.openConnection();
-            con.setRequestMethod("GET");
-            //con.setRequestProperty("User-Agent", USER_AGENT);
-            responseCode = con.getResponseCode();
-            System.out.println("GET Response Code :: " + responseCode + " Image URL " + url);
-            con.disconnect();
-        } catch (Exception e) {
-            e.printStackTrace();
-            log("fail", e.getMessage());
-        }
-        return responseCode;
-    }
-
     public List<WebElement> FindList(String locator) {
         List<WebElement> elementList = null;
         elementList = driver.findElements(By.xpath(locator));
@@ -298,6 +211,38 @@ public class WebDriverHelp {
         //actions.perform();
     }
 
+//TODO implement interface
+// implement multithreading for parallel execution of different applications
+
+    private void checkBrokenImage(String locator) {
+        try {
+            int responseCode = getResponseCode(locator);
+            if (responseCode / 400 != 1) {
+                log("pass", "image is displayed as expected");
+            } else {
+                String url = driver.getCurrentUrl();
+                log("fail", "image is broken or not present page URL is " + url);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            log("fail", e.getMessage());
+        }
+    }
+
+    private void checkPreviewURL() {
+        try {
+            checkPageLoad();
+            if (driver.getCurrentUrl().contains("preview")) {
+                log("fail", "redirected to preview url");
+            } else {
+                //log("pass", "redirected to prod url only");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            log("fail", e.getMessage());
+        }
+    }
+
     public void verifySizesForEachFlavorGrp2(int k) {
         String sizeValue = "";
         try {
@@ -310,7 +255,7 @@ public class WebDriverHelp {
                 checkBrokenImage(driver.findElement(By.xpath(prop.getLocator("ImagePDP"))).getAttribute("src"));
             } catch (Exception e) {
                 String url = driver.getCurrentUrl();
-                log("fail", "Image is not displayed for " + sizeValue+" URL is "+url);
+                log("fail", "Image is not displayed for " + sizeValue + " URL is " + url);
                 captureScreenShot();
             }
             checkPreviewURL();
@@ -330,13 +275,12 @@ public class WebDriverHelp {
             //sizeValue = getEachElement("sizesAvailable", k).getAttribute("innerText");
             //getEachElement("sizesAvailable", k).click();
             //driver.findElement(By.xpath(prop.getLocator("sizesAvailable") + "[contains(.,'" + sizeName + "')]")).click();
-            if(sizeName.contains("PACK")){
-                sizeName = sizeName.replace("ACK","ack");
+            if (sizeName.contains("PACK")) {
+                sizeName = sizeName.replace("ACK", "ack");
                 sizeName = sizeName.replace("FL OZ", "fl oz");
-            }else if(sizeName.contains("FL OZ")){
+            } else if (sizeName.contains("FL OZ")) {
                 sizeName = sizeName.replace("FL OZ", "fl oz");
-            }
-            else if(sizeName.contains("bottle")){
+            } else if (sizeName.contains("bottle")) {
                 sizeName = sizeName.replace("bottle", "Bottle");
             }
             driver.findElement(By.xpath("//ul/li[contains(.,'" + sizeName + "')]")).click();
@@ -345,7 +289,7 @@ public class WebDriverHelp {
                 checkBrokenImage(driver.findElement(By.xpath(prop.getLocator("ImagePDP"))).getAttribute("src"));
             } catch (Exception e) {
                 String url = driver.getCurrentUrl();
-                log("fail", "Image is not displayed for " + sizeName+" URL is "+url);
+                log("fail", "Image is not displayed for " + sizeName + " URL is " + url);
                 captureScreenShot();
             }
             checkPreviewURL();
@@ -371,7 +315,7 @@ public class WebDriverHelp {
                 checkBrokenImage(driver.findElement(By.xpath(prop.getLocator("ImagePDP"))).getAttribute("src"));
             } catch (Exception e) {
                 String url = driver.getCurrentUrl();
-                log("fail", "Image is not displayed for " + flavorName+" URL is "+url);
+                log("fail", "Image is not displayed for " + flavorName + " URL is " + url);
                 captureScreenShot();
             }
             checkPreviewURL();
@@ -405,8 +349,8 @@ public class WebDriverHelp {
             try {
                 checkBrokenImage(driver.findElement(By.xpath(prop.getLocator("ImagePDP"))).getAttribute("src"));
             } catch (Exception e) {
-                String url=driver.getCurrentUrl();
-                log("fail", "Image is not displayed for " + FlavorName+ " URL is "+url);
+                String url = driver.getCurrentUrl();
+                log("fail", "Image is not displayed for " + FlavorName + " URL is " + url);
                 captureScreenShot();
             }
             checkPreviewURL();
@@ -441,13 +385,13 @@ public class WebDriverHelp {
 
             getEachElement("flavorsAvailable", flavor).click();
             checkPageLoad();
-           // ((JavascriptExecutor) driver).executeScript("window.scrollBy(100,200)");
+            // ((JavascriptExecutor) driver).executeScript("window.scrollBy(100,200)");
             //checkBrokenImage(driver.findElement(By.xpath(prop.getLocator("ImagePDP"))).getAttribute("src"));
             try {
                 checkBrokenImage(driver.findElement(By.xpath(prop.getLocator("ImagePDP"))).getAttribute("src"));
             } catch (Exception e) {
                 String url = driver.getCurrentUrl();
-                log("fail", "Image is not displayed for " + flavorName+" URL is "+url);
+                log("fail", "Image is not displayed for " + flavorName + " URL is " + url);
                 captureScreenShot();
             }
             checkPreviewURL();
@@ -578,7 +522,7 @@ public class WebDriverHelp {
                 categoryForEachProduct = driver.findElements(By.xpath(prop.getLocator("cokeExplore_Learn")));
             }
             logTitle(productName);
-            log("pass", "Verified Image, Preview URL on product "+productName);
+            log("pass", "Verified Image, Preview URL on product " + productName);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -624,7 +568,7 @@ public class WebDriverHelp {
                 logTitle(productName);
                 categoryForEachProduct = driver.findElements(By.xpath(prop.getLocator("Zico.PLPProductName")));
             }
-            log("pass", "Verified Image, Preview URL on product "+ productName);
+            log("pass", "Verified Image, Preview URL on product " + productName);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -640,6 +584,73 @@ public class WebDriverHelp {
         }
         return name;
     }
-//TODO implement interface
-// implement multithreading for parallel execution of different applications
+    public ExtentReports initiateExtentReport(String reportPath, String configPath) {
+        dayStamp = new SimpleDateFormat("yyyy_MM_dd_kk_mm_ss").format(new Date());
+        ExtentReports extent = new ExtentReports(System.getProperty("user.dir") + reportPath, true);
+        extent.loadConfig(new File(System.getProperty("user.dir") + configPath));
+        return extent;
+    }
+    public void terminateExtentReport(ExtentReports extent) {
+        extent.flush();
+        extent.close();
+    }
+    public void setLogger(ExtentTest logg) {
+        logger = logg;
+    }
+    public void endTestCase(String result) {
+        if (result.equalsIgnoreCase("pass")) {
+            log("pass", "The Test Case is successfully passed");
+        } else if (result.equalsIgnoreCase("fail")) {
+            log("fail", "The Test Case is failed");
+        }
+    }
+
+    public void log(String status, String msg) {
+        if (status.equalsIgnoreCase("pass")) {
+            logger.log(LogStatus.PASS, msg);
+        } else if (status.equalsIgnoreCase("fail")) {
+            logger.log(LogStatus.FAIL, msg);
+            captureScreenShot();
+        }
+    }
+
+    public void logTitle(String title) {
+        logger.log(LogStatus.INFO, "HTML", title);
+    }
+
+    public void captureScreenShot() {
+        //TODO: get current step name to image and take full page screenshot
+        try {
+            TakesScreenshot ts = (TakesScreenshot) driver;
+            File source = ts.getScreenshotAs(OutputType.FILE);
+            String timeStamp = new SimpleDateFormat("yyyy_MM_dd_kk_mm_ss").format(new Date());
+            String desc = System.getProperty("user.dir") + "//test-output//Screenshot//" + dayStamp + "//" + timeStamp + ".jpg";
+            File deFile = new File(desc);
+            FileUtils.copyFile(source, deFile);
+            System.out.println("Screenshot taken");
+        } catch (Exception e) {
+            System.out.println("Exception: " + e.getMessage());
+        }
+    }
+
+
+    private int getResponseCode(String url) {
+        int responseCode = 0;
+        try {
+            URL obj = null;
+            obj = new URL(url);
+            HttpURLConnection con = null;
+            con = (HttpURLConnection) obj.openConnection();
+            con.setRequestMethod("GET");
+            //con.setRequestProperty("User-Agent", USER_AGENT);
+            responseCode = con.getResponseCode();
+            System.out.println("GET Response Code :: " + responseCode + " Image URL " + url);
+            con.disconnect();
+        } catch (Exception e) {
+            e.printStackTrace();
+            log("fail", e.getMessage());
+        }
+        return responseCode;
+    }
+
 }
